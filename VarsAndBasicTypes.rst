@@ -365,11 +365,11 @@ cả các tệp dùng chung một biến (như các biến không ``const``).
 
 .. sourcecode:: cpp
 
-    // file_A.c định nghĩa biến có thể truy cập được từ các tệp khác
+    // file_A.cpp định nghĩa biến có thể truy cập được từ các tệp khác
     extern const int bufferSize = getGlobalBufferSize();
 
-    // file_X.h, include vào các tệp cần dùng bufferSize trong file_A.c
-    // tệp này rất nên được include cả vào file_A.c để kiểm tra lỗi
+    // file_X.h, include vào các tệp cần dùng bufferSize trong file_A.cpp
+    // tệp này rất nên được include cả vào file_A.cpp để kiểm tra lỗi
     extern const int bufferSize;
 
 
