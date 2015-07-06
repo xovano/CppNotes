@@ -514,10 +514,10 @@ kết quả là lvalue, kiểu thu được là kiểu tham chiếu.
     int i = 42;
     int* p = &i;
 
-    decltype(*p)     a;  // lỗi, a có kiểu int& và phải được khởi tạo
+    decltype(*p)  a;  // lỗi, a có kiểu int& và phải được khởi tạo
 
-    decltype(i)      b;  // b có kiểu int
-    decltype((i))    c;  // lỗi, c có kiểu int& và phải được khởi tạo
+    decltype(i)   b;  // b có kiểu int
+    decltype((i)) c;  // lỗi, c có kiểu int& và phải được khởi tạo
 
 
 Chú ý rằng ``decltype((variable))`` luôn cho kiểu tham chiếu, còn
