@@ -319,6 +319,9 @@ C++11 đưa thêm một loại tham chiếu mới gọi là *tham chiếu rvalue
 niệm "tham chiếu" nếu không nói cụ thể gì thêm được hiểu là tham chiếu "kiểu
 cũ", hay chính xác hơn là *tham chiếu lvalue*.
 
+Tham chiếu không phải là đối tượng, do đó không thể lưu được trên mảng hay
+container.
+
 Con trỏ
 ~~~~~~~
 Con trỏ có thể ở một trong bốn trạng thái:
