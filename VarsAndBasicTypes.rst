@@ -507,6 +507,20 @@ phần khởi tạo. ``auto`` bỏ qua ``const`` cấp cao nhất và tham chi�
     const auto& g = i;   // const int&
 
 
+``auto`` và ``auto*`` có thể thay thế cho nhau trong hầu hết các trường hợp
+khi định nghĩa con trỏ, trừ khi có cv-qualifier:
+
+.. sourcecode:: cpp
+
+    int i = 42;
+    const auto  p1 = &i;  // p1 có kiểu int* const
+    const auto* p2 = &i;  // p2 có kiểu const int*
+
+
+Khi định nghĩa mảng, ta cần chỉ định rõ kiểu. ``auto`` không suy luận được
+kiểu mảng từ danh sách các initializer.
+
+
 Chỉ định kiểu ``decltype``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 ``decltype`` trả về kiểu của toán hạng nhưng *không tính* toán hạng đó.
