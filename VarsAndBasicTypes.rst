@@ -346,6 +346,13 @@ Gán một biến kiểu nguyên vào con trỏ là bất hợp lệ, ngay cả 
     int* p2 = a;  // KHÔNG hợp lệ vì gán int vào con trỏ
 
 
+Ta có thể cộng hoặc trừ con trỏ null với một biểu thức hằng có giá trị bằng
+0. Cũng có thể trừ hai con trỏ null cho nhau và thu được kết quả là 0.
+
+Khoảng cách giữa hai con trỏ được thể hiện bởi kiểu có dấu ``ptrdiff_t``,
+định nghĩa trong tiêu đề ``cstddef``.
+
+
 ``const`` qualifier
 *******************
 
