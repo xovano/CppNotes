@@ -2,6 +2,8 @@
 Mảng
 ****
 
+.. contents:: Mục lục
+
 Định nghĩa mảng
 ===============
 Xem chú ý về mảng ở phần chỉ định kiểu ``auto`` và ``decltype``.
