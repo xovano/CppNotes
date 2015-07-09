@@ -6,8 +6,10 @@ Mảng
 
 Định nghĩa mảng
 ===============
-Xem chú ý về mảng ở phần chỉ định kiểu ``auto`` và ``decltype``.
+Xem chú ý về mảng ở phần chỉ định kiểu auto_ và decltype_.
 
+.. _auto: VarsAndBasicTypes.rst#chi-dinh-kieu-auto
+.. _decltype: VarsAndBasicTypes.rst#chi-dinh-kieu-decltype
 
 Con trỏ và mảng
 ===============
