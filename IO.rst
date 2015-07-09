@@ -1,6 +1,8 @@
 Vào ra
 ######
 
+.. contents:: Mục lục
+
 Ghi ra stream
 *************
 Các lệnh in để debug nên flush stream. Nếu không làm vậy, khi chương trình

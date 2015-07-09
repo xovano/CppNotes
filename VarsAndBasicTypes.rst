@@ -319,6 +319,9 @@ C++11 đưa thêm một loại tham chiếu mới gọi là *tham chiếu rvalue
 niệm "tham chiếu" nếu không nói cụ thể gì thêm được hiểu là tham chiếu "kiểu
 cũ", hay chính xác hơn là *tham chiếu lvalue*.
 
+Tham chiếu không phải là đối tượng, do đó không thể lưu được trên mảng hay
+container.
+
 Con trỏ
 ~~~~~~~
 Con trỏ có thể ở một trong bốn trạng thái:
@@ -341,6 +344,13 @@ Gán một biến kiểu nguyên vào con trỏ là bất hợp lệ, ngay cả 
 
     int a = 0;
     int* p2 = a;  // KHÔNG hợp lệ vì gán int vào con trỏ
+
+
+Ta có thể cộng hoặc trừ con trỏ null với một biểu thức hằng có giá trị bằng
+0. Cũng có thể trừ hai con trỏ null cho nhau và thu được kết quả là 0.
+
+Khoảng cách giữa hai con trỏ được thể hiện bởi kiểu có dấu ``ptrdiff_t``,
+định nghĩa trong tiêu đề ``cstddef``.
 
 
 ``const`` qualifier
@@ -497,6 +507,20 @@ phần khởi tạo. ``auto`` bỏ qua ``const`` cấp cao nhất và tham chi�
     const auto& g = i;   // const int&
 
 
+``auto`` và ``auto*`` có thể thay thế cho nhau trong hầu hết các trường hợp
+khi định nghĩa con trỏ, trừ khi có cv-qualifier:
+
+.. sourcecode:: cpp
+
+    int i = 42;
+    const auto  p1 = &i;  // p1 có kiểu int* const
+    const auto* p2 = &i;  // p2 có kiểu const int*
+
+
+Khi định nghĩa mảng, ta cần chỉ định rõ kiểu. ``auto`` không suy luận được
+kiểu mảng từ danh sách các initializer.
+
+
 Chỉ định kiểu ``decltype``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 ``decltype`` trả về kiểu của toán hạng nhưng *không tính* toán hạng đó.
@@ -514,11 +538,20 @@ kết quả là lvalue, kiểu thu được là kiểu tham chiếu.
     int i = 42;
     int* p = &i;
 
-    decltype(*p)     a;  // lỗi, a có kiểu int& và phải được khởi tạo
+    decltype(*p)  a;  // lỗi, a có kiểu int& và phải được khởi tạo
 
-    decltype(i)      b;  // b có kiểu int
-    decltype((i))    c;  // lỗi, c có kiểu int& và phải được khởi tạo
+    decltype(i)   b;  // b có kiểu int
+    decltype((i)) c;  // lỗi, c có kiểu int& và phải được khởi tạo
 
 
 Chú ý rằng ``decltype((variable))`` luôn cho kiểu tham chiếu, còn
 ``decltype(variable)`` chỉ cho kiểu tham chiếu nếu ``variable`` là tham chiếu.
+
+``decltype`` cũng thể hiện sự khác biệt với ``auto`` khi áp dụng với mảng.
+
+.. sourcecode:: cpp
+
+    int[5] a;
+    auto p(a);      // p có kiểu int*
+    decltype(a) b;  // b có kiểu int[5];
+
