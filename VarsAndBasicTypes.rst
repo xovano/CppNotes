@@ -115,8 +115,10 @@ Quy tắc trên có thể dẫn đến một số tình huống "lạ" như sau:
 
 
 **Đừng trộn lẫn số không dấu với số có dấu, nhất là khi số có dấu mang giá trị
-âm**. Cần nhớ rằng số có dấu sẽ được chuyển đổi tự động sang không dấu nếu cần
-và có thể cho kết quả không như mong đợi.
+âm**. Cần nhớ rằng số có dấu có thể được chuyển đổi tự động sang không dấu nếu cần
+và có thể cho kết quả không như mong đợi. Xem chi tiết tại đây_.
+
+.. _đây: Expressions.rst#toan-hang-khong-dau
 
 
 Literal
