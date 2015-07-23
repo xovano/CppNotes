@@ -115,8 +115,10 @@ Quy tắc trên có thể dẫn đến một số tình huống "lạ" như sau:
 
 
 **Đừng trộn lẫn số không dấu với số có dấu, nhất là khi số có dấu mang giá trị
-âm**. Cần nhớ rằng số có dấu sẽ được chuyển đổi tự động sang không dấu nếu cần
-và có thể cho kết quả không như mong đợi.
+âm**. Cần nhớ rằng số có dấu có thể được chuyển đổi tự động sang không dấu nếu cần
+và có thể cho kết quả không như mong đợi. Xem chi tiết tại đây_.
+
+.. _đây: Expressions.rst#toan-hang-khong-dau
 
 
 Literal
@@ -150,31 +152,37 @@ chữ số. Ví dụ, ``\1234`` tương ứng với kí tự thể hiện giá t
 Chỉ định kiểu cho literal
 -------------------------
 
-======= ======================== ============
-Tiền tố Ý nghĩa                  Kiểu kí tự
-======= ======================== ============
-``u``   Kí tự Unicode 16         ``char16_t``
-``U``   Kí tự Unicode 32         ``char32_t``
-``L``   Kí tự rộng               ``wchar_t``
-``u8``  UTF-8 (chỉ dùng với xâu) ``char``
-======= ======================== ============
+=======  ========================  ============
+Kiểu kí tự
+-----------------------------------------------
+Tiền tố         Ý nghĩa                Kiểu
+=======  ========================  ============
+``u``    Kí tự Unicode 16          ``char16_t``
+``U``    Kí tự Unicode 32          ``char32_t``
+``L``    Kí tự rộng                ``wchar_t``
+``u8``   UTF-8 (chỉ dùng với xâu)  ``char``
+=======  ========================  ============
 
 
-================== =======================
-Hậu tố             Kiểu nguyên *tối thiểu*
-================== =======================
-``u`` hoặc ``U``   ``unsigned``
-``l`` hoặc ``L``   ``long``
-``ll`` hoặc ``LL`` ``long long``
-================== =======================
+==================  ================
+Kiểu nguyên
+------------------------------------
+      Hậu tố        Kiểu *tối thiểu*
+==================  ================
+``u`` hoặc ``U``    ``unsigned``
+``l`` hoặc ``L``    ``long``
+``ll`` hoặc ``LL``  ``long long``
+==================  ================
 
 
-================ ==================
-Hậu tố           Kiểu dấu phảy động
-================ ==================
-``f`` hoặc ``F`` ``float``
-``l`` hoặc ``L`` ``long double``
-================ ==================
+================  ===============
+Kiểu dấu phảy động
+---------------------------------
+     Hậu tố            Kiểu
+================  ===============
+``f`` hoặc ``F``  ``float``
+``l`` hoặc ``L``  ``long double``
+================  ===============
 
 Nên dùng hậu tố ``L`` thay vì ``l`` do chữ ``l`` rất dễ nhầm với số ``1``.
 
@@ -315,12 +323,15 @@ Kiểu phức hợp
 
 Tham chiếu
 ~~~~~~~~~~
-C++11 đưa thêm một loại tham chiếu mới gọi là *tham chiếu rvalue*. Do đó, khái
+C++11 đưa thêm một loại tham chiếu mới gọi là tham chiếu rvalue_. Do đó, khái
 niệm "tham chiếu" nếu không nói cụ thể gì thêm được hiểu là tham chiếu "kiểu
-cũ", hay chính xác hơn là *tham chiếu lvalue*.
+cũ", hay chính xác hơn là tham chiếu lvalue_.
 
 Tham chiếu không phải là đối tượng, do đó không thể lưu được trên mảng hay
 container.
+
+.. _rvalue: Expressions.rst#lvalue-va-rvalue
+.. _lvalue: Expressions.rst#lvalue-va-rvalue
 
 Con trỏ
 ~~~~~~~

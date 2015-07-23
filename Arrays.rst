@@ -6,13 +6,15 @@ Mảng
 
 Định nghĩa mảng
 ===============
-Xem chú ý về mảng ở phần chỉ định kiểu ``auto`` và ``decltype``.
+Xem chú ý về mảng ở phần chỉ định kiểu auto_ và decltype_.
 
+.. _auto: VarsAndBasicTypes.rst#chi-dinh-kieu-auto
+.. _decltype: VarsAndBasicTypes.rst#chi-dinh-kieu-decltype
 
 Con trỏ và mảng
 ===============
 
-Mặc dù chỉ số mảng nên được định nghĩa với kiểu không dâu ``size_t`` trong
+Mặc dù chỉ số mảng nên được định nghĩa với kiểu không dấu ``size_t`` trong
 tiêu đề ``cstddef``, đánh chỉ số âm với con trỏ đang trỏ vào mảng (con trỏ
 này có thể chính là tên mảng) là hợp lệ nếu không có truy cập ngoài biên. Đó
 là do toán tử đánh chỉ số dựng sẵn không ràng buộc kiểu của chỉ số phải là
