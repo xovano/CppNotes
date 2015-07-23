@@ -315,7 +315,7 @@ Các toán tử trên bit
 Các toán tử trên bit bao gồm: ``~``, ``<<``, ``>>``, ``&``, ``^``, ``|``.
 
 Nếu toán hạng có kiểu có dấu và mang giá trị âm, cách mà bit dấu được xử lí
-lệ thuộc máy. Tốt nhất là nên dùng kiểu không dấu với các toán tử trên bit.
+lệ thuộc máy. Tốt nhất là dùng kiểu không dấu với các toán tử trên bit.
 
 Đối với các toán tử dịch bit, toán hạng bên phải phải không âm và có giá trị
 nhỏ hơn số bit có trong kết quả. Chú ý rằng kết quả dịch bit là bản sao *có
