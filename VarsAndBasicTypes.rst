@@ -321,12 +321,15 @@ Kiểu phức hợp
 
 Tham chiếu
 ~~~~~~~~~~
-C++11 đưa thêm một loại tham chiếu mới gọi là *tham chiếu rvalue*. Do đó, khái
+C++11 đưa thêm một loại tham chiếu mới gọi là tham chiếu rvalue_. Do đó, khái
 niệm "tham chiếu" nếu không nói cụ thể gì thêm được hiểu là tham chiếu "kiểu
-cũ", hay chính xác hơn là *tham chiếu lvalue*.
+cũ", hay chính xác hơn là tham chiếu lvalue_.
 
 Tham chiếu không phải là đối tượng, do đó không thể lưu được trên mảng hay
 container.
+
+.. _rvalue: Expressions.rst#lvalue-va-rvalue
+.. _lvalue: Expressions.rst#lvalue-va-rvalue
 
 Con trỏ
 ~~~~~~~
