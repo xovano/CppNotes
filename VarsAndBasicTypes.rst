@@ -143,6 +143,17 @@ implementation). Kiểu này có cùng tính chất dấu với các kiểu tron
 Literal quá lớn không thể biểu diễn được trong bất cứ kiểu nào kể trên là bất
 hợp lệ.
 
+
+Dấu phân cách chữ số
+--------------------
+Kể từ C++14, ta có thể dùng dấu nháy đơn (``'``) để phân cách giữa các cụm
+chữ số trong literal nguyên và literal dấu phảy động để làm cho mã dễ đọc hơn.
+
+Mỗi dấu phân cách ``'`` phải đứng giữa hai chữ số. Chẳng hạn
+``1.602'176'5e-9`` và ``0b1111'1111'1111`` là hợp lệ, còn ``1.'293'1`` và
+``0b'1111'1111'`` là không hợp lệ.
+
+
 Escape sequence
 ---------------
 Dạng escape sequence tổng quát trong C++ là ``\x`` theo sau bởi một số chữ số
