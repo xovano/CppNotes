@@ -469,6 +469,8 @@ Thao tác với kiểu
 
 Tên khác cho kiểu
 ~~~~~~~~~~~~~~~~~
+Khai báo tên khác cho kiểu (type aliasing) không tạo ra kiểu mới.
+
 Các khai báo sử dụng tên khác cho kiểu (type alias) để thể hiện một kiểu phức
 hợp cùng với ``const`` có thể dẫn đến kết quả không mong đợi.
 
