@@ -1,10 +1,11 @@
+***********************
 Biến và các kiểu cơ bản
-#######################
+***********************
 
 .. contents:: Mục lục
 
 Các kiểu nguyên thuỷ dựng sẵn
-*****************************
+=============================
 Các kiểu nguyên thuỷ trong C++ gồm các kiểu số học và kiểu ``void``.
 
 
@@ -126,7 +127,6 @@ Literal
 
 Literal nguyên
 --------------
-
 Literal số nguyên thập phân có kiểu mặc định là kiểu nhỏ nhất trong danh sách:
 ``int``, ``long`` và ``long long`` (hoặc các kiểu không dấu tương ứng nếu có
 hậu tố ``u`` hoặc ``U``).
@@ -165,6 +165,7 @@ chữ số đầu tiên là gắn với ``\``. Trong khi đó, dạng ``\x`` s�
 chữ số. Ví dụ, ``\1234`` tương ứng với kí tự thể hiện giá trị 123 trong hệ cơ số
 8, theo sau bởi kí tự ``4``, còn ``\x1234`` thể hiện một kí tự 16 bit có giá trị
 1234 trong hệ cơ số 16.
+
 
 Chỉ định kiểu cho literal
 -------------------------
@@ -205,7 +206,7 @@ Nên dùng hậu tố ``L`` thay vì ``l`` do chữ ``l`` rất dễ nhầm vớ
 
 
 Biến
-****
+====
 
 Khởi tạo biến
 ~~~~~~~~~~~~~
@@ -336,7 +337,7 @@ Danh sách từ khoá trong C++:
 
 
 Kiểu phức hợp
-*************
+=============
 
 Tham chiếu
 ~~~~~~~~~~
@@ -349,6 +350,7 @@ container.
 
 .. _rvalue: Expressions.rst#lvalue-va-rvalue
 .. _lvalue: Expressions.rst#lvalue-va-rvalue
+
 
 Con trỏ
 ~~~~~~~
@@ -382,7 +384,7 @@ Khoảng cách giữa hai con trỏ được thể hiện bởi kiểu có dấu
 
 
 ``const`` qualifier
-*******************
+===================
 
 Chia sẻ đối tượng ``const`` giữa các tệp
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -482,7 +484,7 @@ các biến đó.
 
 
 Thao tác với kiểu
-*****************
+=================
 
 Tên khác cho kiểu
 ~~~~~~~~~~~~~~~~~
