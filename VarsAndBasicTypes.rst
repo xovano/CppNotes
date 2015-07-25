@@ -128,14 +128,20 @@ Literal nguyên
 --------------
 
 Literal số nguyên thập phân có kiểu mặc định là kiểu nhỏ nhất trong danh sách:
-``int``, ``long`` và ``long long``.
+``int``, ``long`` và ``long long`` (hoặc các kiểu không dấu tương ứng nếu có
+hậu tố ``u`` hoặc ``U``).
 
-Literal hệ cơ số 8 và 16 có kiểu mặc định là kiểu nhỏ nhất trong danh sách:
+Literal hệ cơ số 2, 8 và 16 có kiểu mặc định là kiểu nhỏ nhất trong danh sách:
 ``int``, ``unsigned``, ``long``, ``unsigned long``, ``long long`` và ``unsigned
-long long``.
+long long`` (bỏ qua các kiểu có dấu nếu có hậu tố ``u`` hoặc ``U``).
 
-Literal có giá trị quá lớn không thể biểu diễn được bởi kiểu lớn nhất trong danh
-sách sẽ gây ra lỗi.
+Literal có giá trị lớn không thể biểu diễn được bởi kiểu lớn nhất trong danh
+sách trên có thể sẽ được biểu diễn trong một kiểu nguyên mở rộng (lệ thuộc
+implementation). Kiểu này có cùng tính chất dấu với các kiểu trong danh sách
+(đều là có dấu, không dấu hoặc có thể có dấu hoặc không dấu).
+
+Literal quá lớn không thể biểu diễn được trong bất cứ kiểu nào kể trên là bất
+hợp lệ.
 
 Escape sequence
 ---------------
