@@ -442,12 +442,12 @@ Các kiểu có thể sử dụng được trong ``constexpr`` được gọi l�
 các kiểu đó đủ đơn giản để có giá trị literal.
 
 Con trỏ ``constexpr`` có thể được khởi tạo từ các literal ``nullptr`` hoặc
-``0``. Chúng ta cũng chỉ có thể trỏ hoặc gắn tham chiếu tới các đối tượng có địa
-chỉ cố định.
+``0``. Con trỏ và tham chiếu ``constexpr`` chỉ có thể trỏ hoặc gắn vào đối tượng
+có địa chỉ cố định.
 
 Biến không ``static`` định nghĩa bên trong thân hàm không có địa chỉ cố định. Do
-đó con trỏ ``constexpr`` không thể trỏ tới chúng. Địa chỉ của các đối tượng nằm
-ngoài hàm và các biến ``static`` là biểu thức hằng và có thể được dùng để khởi
+đó con trỏ ``constexpr`` không thể trỏ tới chúng. Địa chỉ của các đối tượng
+toàn cục và các biến ``static`` là biểu thức hằng và có thể được dùng để khởi
 tạo con trỏ ``constexpr`` cũng như có thể gắn các tham chiếu ``constexpr`` vào
 các biến đó.
 
