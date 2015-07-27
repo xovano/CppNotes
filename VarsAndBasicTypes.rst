@@ -112,9 +112,10 @@ Literal nguyên thập phân có kiểu mặc định là kiểu nhỏ nhất tr
 ``int``, ``long`` và ``long long`` (hoặc các kiểu không dấu tương ứng nếu có
 hậu tố ``u`` hoặc ``U``).
 
-Literal hệ cơ số 2, 8 và 16 có kiểu mặc định là kiểu nhỏ nhất trong danh sách:
-``int``, ``unsigned``, ``long``, ``unsigned long``, ``long long`` và ``unsigned
-long long`` (bỏ qua các kiểu có dấu nếu có hậu tố ``u`` hoặc ``U``).
+Literal hệ cơ số 2 (C++14), 8 và 16 có kiểu mặc định là kiểu nhỏ nhất trong
+danh sách: ``int``, ``unsigned``, ``long``, ``unsigned long``, ``long long``
+và ``unsigned long long`` (bỏ qua các kiểu có dấu nếu có hậu tố ``u`` hoặc
+``U``).
 
 Literal có giá trị lớn không thể biểu diễn được bởi kiểu lớn nhất trong danh
 sách trên có thể sẽ được biểu diễn trong một kiểu nguyên mở rộng của
