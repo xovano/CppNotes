@@ -424,7 +424,9 @@ từ một biểu thức hằng khác.
 
     const int minLength = 10;          // minLength là biểu thức hằng
     const int limit = minLength + 5;   // limit cũng là biểu thức hằng
+
     int age = 20;                      // age KHÔNG phải là biểu thức hằng
+
     const int size = getBufferSize();  // size KHÔNG phải là biểu thức hằng
 
 
