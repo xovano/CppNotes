@@ -85,15 +85,15 @@ Quy tắc trên có thể dẫn đến một số tình huống "lạ" như sau:
 
 .. sourcecode:: cpp
 
-    unsigned u = -0.5;  // XÁC ĐỊNH, u được khởi tạo với giá trị 0
+    unsigned u1 = -0.5;  // XÁC ĐỊNH, u được khởi tạo với giá trị 0
 
-    unsigned u = -3.14;  // (1) KHÔNG xác định, sau khi cắt bỏ phần sau dấu phảy
-                         //     ta được giá trị -3 không biểu diễn được trong
-                         //     kiểu unsigned
-    unsigned u = -3;     // (2) XÁC ĐỊNH, khởi tạo theo quy tắc lấy phần dư
+    unsigned u2 = -3.14;  // (1) KHÔNG xác định, sau khi cắt bỏ phần sau dấu phảy
+                          //     ta được giá trị -3 không biểu diễn được trong
+                          //     kiểu unsigned
+    unsigned u3 = -3;     // (2) XÁC ĐỊNH, khởi tạo theo quy tắc lấy phần dư
 
-    unsigned u = static_cast<unsigned>(-3.14);  // KHÔNG xác định, tương tự như (1)
-    unsigned u = static_cast<int>(-3.14);       // XÁC ĐỊNH, tương đương với (2)
+    unsigned u4 = static_cast<unsigned>(-3.14);  // KHÔNG xác định, tương tự như (1)
+    unsigned u5 = static_cast<int>(-3.14);       // XÁC ĐỊNH, tương đương với (2)
 
 
 **Đừng trộn lẫn số không dấu với số có dấu, nhất là khi số có dấu mang giá trị
