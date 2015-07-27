@@ -16,9 +16,9 @@ Kiểu số học gồm các kiểu nguyên và các kiểu dấu phảy động
 Kích thước của các kiểu số học phụ thuộc vào nền tảng. Tiêu chuẩn chỉ đảm bảo
 kích thước tối thiểu như bảng dưới đây.
 
-=============== ===================================== ====================
-Kiểu            Ý nghĩa                               Kích thước tối thiểu
-=============== ===================================== ====================
+=============== ===================================== ======================
+Kiểu            Ý nghĩa                               Kích thước *tối thiểu*
+=============== ===================================== ======================
 ``bool``        Boolean                               Không có
 ``char``        Kí tự                                 8 bit
 ``wchar_t``     Kí tự rộng                            16 bit
@@ -31,7 +31,7 @@ Kiểu            Ý nghĩa                               Kích thước tối t
 ``float``       Số dấu phảy động độ chính xác đơn     6 chữ số có nghĩa
 ``double``      Số dấu phảy động độ chính xác kép     10 chữ số có nghĩa
 ``long double`` Số dấu phảy động độ chính xác mở rộng 10 chữ số có nghĩa
-=============== ===================================== ====================
+=============== ===================================== ======================
 
 Kiểu ``char`` được đảm bảo là đủ lớn để có thể có thể lưu một giá trị số tương
 ứng với các kí tự trong bộ kí tự căn bản của máy, tức là ``char`` có cùng kích
@@ -64,7 +64,7 @@ dụng một trong hai cách biểu diễn này, tuỳ thuộc vào implementati
 Tất cả các bit của kiểu không dấu đều biểu diễn giá trị.
 
 Tiêu chuẩn không quy định cách biểu diễn kiểu có dấu mà chỉ quy định rằng khoảng
-biểu diễn cần được chia đều cho các giá trị âm và dương. Vì thế, nếu kiểu
+biểu diễn cần được *chia đều* cho các giá trị âm và dương. Vì thế, nếu kiểu
 ``signed char`` rộng 8 bit, nó được đảm bảo là sẽ biểu diễn được các giá trị từ
 *-127* đến 127.
 
@@ -187,10 +187,9 @@ Biến
 
 Khởi tạo biến
 ~~~~~~~~~~~~~
-
 Khởi tạo và gán là hai thao tác *khác nhau* trong C++. Khởi tạo xảy ra khi biến
-được cấp một giá trị khi nó được tạo ra. Gán phá huỷ giá trị (trạng thái) hiện
-tại của biến và thay thế nó bởi một giá trị mới.
+được cấp một giá trị khi nó được tạo ra. Gán *phá huỷ giá trị (trạng thái) hiện
+tại* của biến và thay thế nó bởi một giá trị mới.
 
 Trình dịch sẽ báo lỗi nếu ta khởi tạo biến có kiểu dựng sẵn bằng list
 initialization nếu việc khởi tạo đó dẫn đến mất thông tin (thu hẹp kiểu).
@@ -440,7 +439,7 @@ lên biến và biến đó phải được khởi tạo bởi biểu thức h�
 Kiểu literal
 ------------
 Các kiểu có thể sử dụng được trong ``constexpr`` được gọi là kiểu literal vì
-chúng đủ đơn giản để có giá trị literal.
+các kiểu đó đủ đơn giản để có giá trị literal.
 
 Con trỏ ``constexpr`` có thể được khởi tạo từ các literal ``nullptr`` hoặc
 ``0``. Chúng ta cũng chỉ có thể trỏ hoặc gắn tham chiếu tới các đối tượng có địa
