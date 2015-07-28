@@ -1,10 +1,11 @@
+***********************
 Biến và các kiểu cơ bản
-#######################
+***********************
 
 .. contents:: Mục lục
 
 Các kiểu nguyên thuỷ dựng sẵn
-*****************************
+=============================
 Các kiểu nguyên thuỷ trong C++ gồm các kiểu số học và kiểu ``void``.
 
 
@@ -15,9 +16,9 @@ Kiểu số học gồm các kiểu nguyên và các kiểu dấu phảy động
 Kích thước của các kiểu số học phụ thuộc vào nền tảng. Tiêu chuẩn chỉ đảm bảo
 kích thước tối thiểu như bảng dưới đây.
 
-=============== ===================================== ====================
-Kiểu            Ý nghĩa                               Kích thước tối thiểu
-=============== ===================================== ====================
+=============== ===================================== ======================
+Kiểu            Ý nghĩa                               Kích thước *tối thiểu*
+=============== ===================================== ======================
 ``bool``        Boolean                               Không có
 ``char``        Kí tự                                 8 bit
 ``wchar_t``     Kí tự rộng                            16 bit
@@ -30,11 +31,7 @@ Kiểu            Ý nghĩa                               Kích thước tối t
 ``float``       Số dấu phảy động độ chính xác đơn     6 chữ số có nghĩa
 ``double``      Số dấu phảy động độ chính xác kép     10 chữ số có nghĩa
 ``long double`` Số dấu phảy động độ chính xác mở rộng 10 chữ số có nghĩa
-=============== ===================================== ====================
-
-Phần bộ nhớ nhỏ nhất có thể đánh địa chỉ được trên máy được gọi là "byte". Do đó
-byte trong C++ không nhất thiết phải là 8 bit, mặc dù hầu hết các máy có các
-byte 8 bit.
+=============== ===================================== ======================
 
 Kiểu ``char`` được đảm bảo là đủ lớn để có thể có thể lưu một giá trị số tương
 ứng với các kí tự trong bộ kí tự căn bản của máy, tức là ``char`` có cùng kích
@@ -64,27 +61,12 @@ Không giống với các kiểu nguyên khác, ``char`` và ``signed char`` là
 phân biệt, chỉ có hai các biểu diễn là không dấu và có dấu. Kiểu ``char`` sử
 dụng một trong hai cách biểu diễn này, tuỳ thuộc vào implementation.
 
-Đối với kiểu không dấu, tất cả các bit đều biểu diễn giá trị.
+Tất cả các bit của kiểu không dấu đều biểu diễn giá trị.
 
 Tiêu chuẩn không quy định cách biểu diễn kiểu có dấu mà chỉ quy định rằng khoảng
-biểu diễn cần được chia đều cho các giá trị âm và dương. Vì thế, nếu kiểu
+biểu diễn cần được *chia đều* cho các giá trị âm và dương. Vì thế, nếu kiểu
 ``signed char`` rộng 8 bit, nó được đảm bảo là sẽ biểu diễn được các giá trị từ
 *-127* đến 127.
-
-
-Lựa chọn kiểu
--------------
-
-* Sử dụng kiểu không dấu cho các giá trị không thể âm.
-* Sử dụng kiểu ``int`` cho tính toán số học cho số nguyên. ``short`` thường quá
-  nhỏ, ``long`` thường có cùng kích thước với ``int``. Nếu cần tính các giá trị
-  lớn hơn giá trị tối thiểu được đảm bảo bới ``int``, hãy dùng ``long long``.
-* Đừng dùng ``char`` hay ``bool`` trong các biểu thức số học. Nếu cần tính các
-  số nguyên rất nhỏ, hãy chỉ rõ kiểu cần dùng là ``signed char`` hay ``unsigned
-  char``.
-* Dùng ``double`` cho tính toán dấu phảy động, ``float`` thường không có đủ độ
-  chính xác, còn độ chính xác cung cấp bởi ``long double`` thường không cần
-  thiết. Trên thực tế tính toán với ``double`` có thể cho tốc độ cao hơn.
 
 
 Chuyển đổi kiểu
@@ -103,22 +85,22 @@ Quy tắc trên có thể dẫn đến một số tình huống "lạ" như sau:
 
 .. sourcecode:: cpp
 
-    unsigned u = -0.5;  // XÁC ĐỊNH, u được khởi tạo với giá trị 0
+    unsigned u1 = -0.5;  // XÁC ĐỊNH, u được khởi tạo với giá trị 0
 
-    unsigned u = -3.14;  // (1) KHÔNG xác định, sau khi cắt bỏ phần sau dấu phảy
-                         //     ta được giá trị -3 không biểu diễn được trong
-                         //     kiểu unsigned
-    unsigned u = -3;     // (2) XÁC ĐỊNH, khởi tạo theo quy tắc lấy phần dư
+    unsigned u2 = -3.14;  // (1) KHÔNG xác định, sau khi cắt bỏ phần sau dấu phảy
+                          //     ta được giá trị -3 không biểu diễn được trong
+                          //     kiểu unsigned
+    unsigned u3 = -3;     // (2) XÁC ĐỊNH, khởi tạo theo quy tắc lấy phần dư
 
-    unsigned u = static_cast<unsigned>(-3.14);  // KHÔNG xác định, tương tự như (1)
-    unsigned u = static_cast<int>(-3.14);       // XÁC ĐỊNH, tương đương với (2)
+    unsigned u4 = static_cast<unsigned>(-3.14);  // KHÔNG xác định, tương tự như (1)
+    unsigned u5 = static_cast<int>(-3.14);       // XÁC ĐỊNH, tương đương với (2)
 
 
 **Đừng trộn lẫn số không dấu với số có dấu, nhất là khi số có dấu mang giá trị
-âm**. Cần nhớ rằng số có dấu có thể được chuyển đổi tự động sang không dấu nếu cần
-và có thể cho kết quả không như mong đợi. Xem chi tiết tại đây_.
+âm**. Cần nhớ rằng `số có dấu có thể được chuyển đổi tự động sang không dấu nếu
+cần`__ và có thể cho kết quả không như mong đợi.
 
-.. _đây: Expressions.rst#toan-hang-khong-dau
+.. __: Expressions.rst#toan-hang-khong-dau
 
 
 Literal
@@ -126,16 +108,30 @@ Literal
 
 Literal nguyên
 --------------
+Literal nguyên thập phân có kiểu mặc định là kiểu nhỏ nhất trong danh sách:
+``int``, ``long`` và ``long long`` (hoặc các kiểu không dấu tương ứng nếu có
+hậu tố ``u`` hoặc ``U``).
 
-Literal số nguyên thập phân có kiểu mặc định là kiểu nhỏ nhất trong danh sách:
-``int``, ``long`` và ``long long``.
+Literal hệ cơ số 2 (C++14), 8 và 16 có kiểu mặc định là kiểu nhỏ nhất trong
+danh sách: ``int``, ``unsigned``, ``long``, ``unsigned long``, ``long long``
+và ``unsigned long long`` (bỏ qua các kiểu có dấu nếu có hậu tố ``u`` hoặc
+``U``).
 
-Literal hệ cơ số 8 và 16 có kiểu mặc định là kiểu nhỏ nhất trong danh sách:
-``int``, ``unsigned``, ``long``, ``unsigned long``, ``long long`` và ``unsigned
-long long``.
+Literal có giá trị lớn không thể biểu diễn được bởi kiểu lớn nhất trong danh
+sách trên có thể sẽ được biểu diễn trong một kiểu nguyên mở rộng của
+implementation. Kiểu này có cùng tính chất dấu với các kiểu trong danh sách
+(đều là có dấu, không dấu hoặc có thể có dấu hoặc không dấu).
 
-Literal có giá trị quá lớn không thể biểu diễn được bởi kiểu lớn nhất trong danh
-sách sẽ gây ra lỗi.
+Literal quá lớn không thể biểu diễn được trong bất cứ kiểu nào kể trên là bất
+hợp lệ.
+
+
+Dấu phân cách chữ số (C++14)
+----------------------------
+Mỗi dấu phân cách ``'`` phải đứng giữa hai chữ số. Chẳng hạn
+``1.602'176'5e-9`` và ``0b1111'1111'1111`` là hợp lệ, còn ``1.'293'1`` và
+``0b'1111'1111'`` là không hợp lệ.
+
 
 Escape sequence
 ---------------
@@ -148,6 +144,7 @@ chữ số đầu tiên là gắn với ``\``. Trong khi đó, dạng ``\x`` s�
 chữ số. Ví dụ, ``\1234`` tương ứng với kí tự thể hiện giá trị 123 trong hệ cơ số
 8, theo sau bởi kí tự ``4``, còn ``\x1234`` thể hiện một kí tự 16 bit có giá trị
 1234 trong hệ cơ số 16.
+
 
 Chỉ định kiểu cho literal
 -------------------------
@@ -184,22 +181,18 @@ Kiểu dấu phảy động
 ``l`` hoặc ``L``  ``long double``
 ================  ===============
 
-Nên dùng hậu tố ``L`` thay vì ``l`` do chữ ``l`` rất dễ nhầm với số ``1``.
-
 
 Biến
-****
+====
 
 Khởi tạo biến
 ~~~~~~~~~~~~~
-
 Khởi tạo và gán là hai thao tác *khác nhau* trong C++. Khởi tạo xảy ra khi biến
-được cấp một giá trị khi nó được tạo ra. Gán phá huỷ giá trị (trạng thái) hiện
-tại của biến và thay thế nó bởi một giá trị mới.
+được cấp một giá trị khi nó được tạo ra. Gán *phá huỷ giá trị (trạng thái) hiện
+tại* của biến và thay thế nó bởi một giá trị mới.
 
 Trình dịch sẽ báo lỗi nếu ta khởi tạo biến có kiểu dựng sẵn bằng list
-initialization (khởi tạo bằng danh sách) nếu việc khởi tạo đó dẫn đến mất thông
-tin (thu hẹp kiểu).
+initialization nếu việc khởi tạo đó dẫn đến mất thông tin (thu hẹp kiểu).
 
 Biến có kiểu dựng sẵn được định nghĩa ngoài thân hàm được khởi tạo mặc định với
 giá trị 0.
@@ -217,12 +210,10 @@ tên đó.
     extern int k = 10;  // khai báo và định nghĩa
 
 
-Chú ý rằng khai báo biến ``extern`` có phần khởi tạo bên trong hàm là lỗi.
+Khai báo biến ``extern`` có phần khởi tạo bên trong hàm là lỗi.
 
 Một biến có thể được khai báo nhiều lần, nhưng chỉ có thể được định nghĩa đúng
-một lần. Để sử dụng một biến trong nhiều hơn một tệp, chúng ta cần định nghĩa
-biến đó trong một và chỉ một tệp, các tệp còn lại khai báo biến đó chứ không
-định nghĩa.
+một lần.
 
 
 Định danh
@@ -319,7 +310,7 @@ Danh sách từ khoá trong C++:
 
 
 Kiểu phức hợp
-*************
+=============
 
 Tham chiếu
 ~~~~~~~~~~
@@ -333,6 +324,7 @@ container.
 .. _rvalue: Expressions.rst#lvalue-va-rvalue
 .. _lvalue: Expressions.rst#lvalue-va-rvalue
 
+
 Con trỏ
 ~~~~~~~
 Con trỏ có thể ở một trong bốn trạng thái:
@@ -343,8 +335,7 @@ Con trỏ có thể ở một trong bốn trạng thái:
 4. Không hợp lệ, nếu không thuộc ba trạng thái trên.
 
 Mặc dù các trạng thái 2 và 3 là hợp lệ nhưng vì con trỏ không trỏ tới đối tượng,
-sử dụng con trỏ như vậy để truy cập tới đối tượng (giả định) ở vị trí đó gây
-hành vi không xác định.
+khử tham chiếu nó gây hành vi không xác định.
 
 Gán một biến kiểu nguyên vào con trỏ là bất hợp lệ, ngay cả khi giá trị của biến
 đó bằng 0.
@@ -365,7 +356,7 @@ Khoảng cách giữa hai con trỏ được thể hiện bởi kiểu có dấu
 
 
 ``const`` qualifier
-*******************
+===================
 
 Chia sẻ đối tượng ``const`` giữa các tệp
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -425,50 +416,51 @@ bỏ qua, ``const`` cấp thấp không bao giờ bị bỏ qua.
 
 ``constexpr`` và biểu thức hằng
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Biểu thức hằng là biểu thức có giá trị không thể thay đổi và có thể tính được
-tại thời điểm dịch, chẳng hạn một literal, một đối tượng ``const`` được khởi tạo
+Biểu thức hằng là biểu thức có giá trị không thể thay đổi và *tính được tại
+thời điểm dịch*, chẳng hạn một literal, một đối tượng ``const`` được khởi tạo
 từ một biểu thức hằng khác.
 
 .. sourcecode:: cpp
 
     const int minLength = 10;          // minLength là biểu thức hằng
     const int limit = minLength + 5;   // limit cũng là biểu thức hằng
+
     int age = 20;                      // age KHÔNG phải là biểu thức hằng
+
     const int size = getBufferSize();  // size KHÔNG phải là biểu thức hằng
 
 
 Biến ``constexpr``
 ------------------
 Trong C++11, ta có thể yêu cầu trình dịch xác nhận một biến là biểu thức hằng
-với từ khoá ``constexpr``. ``constexpr`` được ngầm định ``const`` *cấp cao nhất*
-được áp dụng lên biến và biến đó phải được khởi tạo bởi biểu thức hằng. Thông
-thường, việc dùng ``constexpr`` để khai báo các biến định sử dụng như những biểu
-thức hằng là một điều nên làm. Một hàm cũng có thể được khai báo là
-``constexpr`` nếu nó thoả mãn một số điều kiện để trình dịch có thể tính được
-giá trị của nó ngay tại lúc dịch.
+với từ khoá ``constexpr``. ``constexpr`` ngầm định ``const`` *cấp cao nhất*
+lên biến và biến đó phải được khởi tạo bởi biểu thức hằng. Dùng ``constexpr``
+để khai báo các biến định sử dụng như những biểu thức hằng là điều nên làm.
 
 
 Kiểu literal
 ------------
 Các kiểu có thể sử dụng được trong ``constexpr`` được gọi là kiểu literal vì
-chúng đủ đơn giản để có giá trị literal.
+các kiểu đó đủ đơn giản để có giá trị literal.
 
 Con trỏ ``constexpr`` có thể được khởi tạo từ các literal ``nullptr`` hoặc
-``0``. Chúng ta cũng chỉ có thể trỏ hoặc gắn tham chiếu tới các đối tượng có địa
-chỉ cố định.
+``0``. Con trỏ và tham chiếu ``constexpr`` chỉ có thể trỏ hoặc gắn vào đối tượng
+có địa chỉ cố định.
 
 Biến không ``static`` định nghĩa bên trong thân hàm không có địa chỉ cố định. Do
-đó con trỏ ``constexpr`` không thể trỏ tới chúng. Địa chỉ của các đối tượng nằm
-ngoài hàm và các biến ``static`` là biểu thức hằng và có thể được dùng để khởi
+đó con trỏ ``constexpr`` không thể trỏ tới chúng. Địa chỉ của các đối tượng
+toàn cục và các biến ``static`` là biểu thức hằng và có thể được dùng để khởi
 tạo con trỏ ``constexpr`` cũng như có thể gắn các tham chiếu ``constexpr`` vào
 các biến đó.
 
 
 Thao tác với kiểu
-*****************
+=================
 
 Tên khác cho kiểu
 ~~~~~~~~~~~~~~~~~
+Khai báo tên khác cho kiểu (type aliasing) không tạo ra kiểu mới.
+
 Các khai báo sử dụng tên khác cho kiểu (type alias) để thể hiện một kiểu phức
 hợp cùng với ``const`` có thể dẫn đến kết quả không mong đợi.
 
@@ -478,17 +470,17 @@ hợp cùng với ``const`` có thể dẫn đến kết quả không mong đợ
     const pstr p1 = nullptr;
 
 
-Có khả năng cao là khai báo của ``p1`` được nhiều người hiểu thành:
+Có khả năng cao là khai báo của ``p1`` bị hiểu lầm thành:
 
 .. sourcecode:: cpp
 
     const char* p1 = nullptr;  // p1 là con trỏ trỏ tới const char (SAI)
 
 
-bằng cách thay ``pstr`` bởi ``char*``. Tuy nhiên cách hiểu trên là sai.
+bằng cách thay ``pstr`` bởi ``char*``. Nhưng đó là cách hiểu sai.
 
 Kiểu cơ sở trong khai báo trên là ``const pstr``. ``const`` xuất hiện trong kiểu
-cơ sở làm thay đổi kiểu được cho. ``pstr`` ở đây là kiểu "con trỏ tới ``char``",
+cơ sở làm thay đổi kiểu được cho. ``pstr`` là kiểu "con trỏ tới ``char``",
 do đó ``const pstr`` là kiểu "hằng con trỏ trỏ tới ``char``", chứ không phải là
 "con trỏ tới ``const char``". Khi được viết lại như cách hiểu sai, kiểu cơ sở
 của khai báo bị thay đổi thành ``const char`` và ``*`` chỉ là một phần của phần
@@ -558,11 +550,17 @@ kết quả là lvalue, kiểu thu được là kiểu tham chiếu.
 Chú ý rằng ``decltype((variable))`` luôn cho kiểu tham chiếu, còn
 ``decltype(variable)`` chỉ cho kiểu tham chiếu nếu ``variable`` là tham chiếu.
 
-``decltype`` cũng thể hiện sự khác biệt với ``auto`` khi áp dụng với mảng.
+``decltype`` cũng thể hiện sự khác biệt với ``auto`` khi áp dụng với mảng và
+hàm.
 
 .. sourcecode:: cpp
 
     int[5] a;
-    auto p(a);      // p có kiểu int*
+    auto p = a;     // p có kiểu int*
     decltype(a) b;  // b có kiểu int[5];
+
+    int foo(int);
+    delctype(foo)  getFunc1(int funcNum);  // lỗi, decltype(foo) cho kiểu hàm int(int)
+    decltype(foo)* getFunc2(int funcNum);  // OK
+    auto pf = foo;  // OK, pf có kiểu con trỏ hàm int (*)(int)
 
