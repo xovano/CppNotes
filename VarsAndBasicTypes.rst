@@ -75,9 +75,9 @@ Chuyển đổi kiểu
 * Khi gán giá trị dấu phảy động vào một đối tượng kiểu nguyên, phần sau dấu
   phảy bị cắt bỏ. Hành vi là không xác định nếu giá trị sau khi được cắt bỏ
   không thể biểu diễn được trong kiểu đích.
-* Khi gán một giá trị ngoài khoảng biểu diễn vào một đối tượng không dấu, kết
-  quả được lưu trữ là phần dư của giá trị đó với số lượng giá trị mà kiểu đích
-  có thể lưu trữ.
+* Khi gán một giá trị nguyên ngoài khoảng biểu diễn vào một đối tượng không dấu,
+  kết quả được lưu trữ là phần dư của giá trị đó với số lượng giá trị mà kiểu
+  đích có thể lưu trữ.
 * Khi gán một giá trị ngoài khoảng biểu diễn vào một đối tượng có dấu, kết quả
   là không xác định.
 
@@ -85,16 +85,26 @@ Quy tắc trên có thể dẫn đến một số tình huống "lạ" như sau:
 
 .. sourcecode:: cpp
 
-    unsigned u1 = -0.5;  // XÁC ĐỊNH, u được khởi tạo với giá trị 0
+    unsigned u1 = -3.14;  // KHÔNG xác định, sau khi cắt bỏ phần sau dấu phảy
+                          // ta được giá trị -3 không biểu diễn được trong
+                          // kiểu unsigned
+    unsigned u2 = static_cast<unsigned>(-3.14);  // vẫn KHÔNG xác định, như trên
 
-    unsigned u2 = -3.14;  // (1) KHÔNG xác định, sau khi cắt bỏ phần sau dấu phảy
-                          //     ta được giá trị -3 không biểu diễn được trong
-                          //     kiểu unsigned
-    unsigned u3 = -3;     // (2) XÁC ĐỊNH, khởi tạo theo quy tắc lấy phần dư
+    unsigned u3 = -3;                      // XÁC ĐỊNH, khởi tạo theo quy tắc lấy phần dư
+    unsigned u4 = static_cast<int>(-3.14); // XÁC ĐỊNH, như trên
 
-    unsigned u4 = static_cast<unsigned>(-3.14);  // KHÔNG xác định, tương tự như (1)
-    unsigned u5 = static_cast<int>(-3.14);       // XÁC ĐỊNH, tương đương với (2)
+    unsigned u5 = -0.5;  // XÁC ĐỊNH, u được khởi tạo với giá trị 0
 
+
+Chú ý rằng dòng lệnh khởi tạo ``u2`` sử dụng ép kiểu nên trình dịch có thể sẽ
+không cảnh báo (``gcc`` cảnh báo đối với ``u1`` nhưng không cảnh báo đối với
+``u2``). Đây là một lí do mà chúng ta nên tránh ép kiểu (đáng chú ý,
+MISRA-C++ yêu cầu các chuyển đổi làm mất độ chính xác phải dùng ép kiểu hiện).
+
+Hành vi không xác định trong ví dụ trên có thể quan sát được trong thực tế là
+bộ xử lí Intel khởi tạo ``u1`` và ``u2`` theo kiểu "trục số tròn" (lấy phần
+dư từ ``-3``), còn bộ xử lí ARM khởi tạo ``u1`` và ``u2`` thành ``0``. Tuy
+nhiên đây là hành vi không xác định nên mọi kết quả đều được phép xảy ra.
 
 **Đừng trộn lẫn số không dấu với số có dấu, nhất là khi số có dấu mang giá trị
 âm**. Cần nhớ rằng `số có dấu có thể được chuyển đổi tự động sang không dấu nếu
