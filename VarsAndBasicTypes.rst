@@ -550,11 +550,17 @@ kết quả là lvalue, kiểu thu được là kiểu tham chiếu.
 Chú ý rằng ``decltype((variable))`` luôn cho kiểu tham chiếu, còn
 ``decltype(variable)`` chỉ cho kiểu tham chiếu nếu ``variable`` là tham chiếu.
 
-``decltype`` cũng thể hiện sự khác biệt với ``auto`` khi áp dụng với mảng.
+``decltype`` cũng thể hiện sự khác biệt với ``auto`` khi áp dụng với mảng và
+hàm.
 
 .. sourcecode:: cpp
 
     int[5] a;
-    auto p(a);      // p có kiểu int*
+    auto p = a;     // p có kiểu int*
     decltype(a) b;  // b có kiểu int[5];
+
+    int foo(int);
+    delctype(foo)  getFunc1(int funcNum);  // lỗi, decltype(foo) cho kiểu hàm int(int)
+    decltype(foo)* getFunc2(int funcNum);  // OK
+    auto pf = foo;  // OK, pf có kiểu con trỏ hàm int (*)(int)
 
