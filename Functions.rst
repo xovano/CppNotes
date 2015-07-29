@@ -276,9 +276,9 @@ Mức độ khớp của các đối số được xác định theo chiều gi�
 
 #. Khớp chính xác:
 
-  * Kiểu đối số trùng với kiểu tham số.
-  * Đối số được chuyển đổi từ kiểu mảng hoặc hàm sang kiểu con trỏ tương ứng.
-  * ``const`` cấp cao nhất được thêm vào hoặc bỏ đi từ đối số.
+    * Kiểu đối số trùng với kiểu tham số.
+    * Đối số được chuyển đổi từ kiểu mảng hoặc hàm sang kiểu con trỏ tương ứng.
+    * ``const`` cấp cao nhất được thêm vào hoặc bỏ đi từ đối số.
 
 #. Khớp qua chuyển đổi ``const`` (chẳng hạn từ ``int&`` sang ``const int&``).
 #. Khớp qua `nâng kiểu`_.
