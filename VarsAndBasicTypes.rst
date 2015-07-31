@@ -511,8 +511,7 @@ phần khởi tạo. ``auto`` bỏ qua ``const`` cấp cao nhất và tham chi�
 
     auto a = ci;   // int, bỏ qua const cấp cao nhất
     auto b = ri;   // int, bỏ qua tham chiếu
-
-    auto c = rci;  // const int, const cấp thấp không bị bỏ qua
+    auto c = rci;  // int, bỏ qua cả tham chiếu và const cấp cao nhất
 
     const auto  d = ci;  // const int
     auto&       e = i;   // int&
