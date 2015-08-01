@@ -331,9 +331,6 @@ cũ", hay chính xác hơn là tham chiếu lvalue_.
 Tham chiếu không phải là đối tượng, do đó không thể lưu được trên mảng hay
 container.
 
-.. _rvalue: Expressions.rst#lvalue-va-rvalue
-.. _lvalue: Expressions.rst#lvalue-va-rvalue
-
 
 Con trỏ
 ~~~~~~~
@@ -573,3 +570,8 @@ hàm.
     decltype(foo)* getFunc2(int funcNum);  // OK
     auto pf = foo;  // OK, pf có kiểu con trỏ hàm int (*)(int)
 
+
+
+
+.. _rvalue: Expressions.rst#lvalue-va-rvalue
+.. _lvalue: Expressions.rst#lvalue-va-rvalue
