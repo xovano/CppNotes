@@ -550,8 +550,9 @@ Khác với ``auto``, khi áp ``decltype`` lên biến, kiểu trả về là ki
 duy nhất mà tham chiếu không được coi là đồng nhất với đối tượng được tham
 chiếu.
 
-Khi áp dụng ``decltype`` lên biểu thức không phải là biến và biểu thức đó cho
-kết quả là lvalue, kiểu thu được là kiểu tham chiếu.
+Khi áp dụng ``decltype`` lên biểu thức lvalue_ không phải là định danh
+(không trong cặp ngoặc) hay biểu thức truy cập thành viên, kiểu thu được là
+kiểu tham chiếu.
 
 .. sourcecode:: cpp
 
@@ -562,6 +563,16 @@ kết quả là lvalue, kiểu thu được là kiểu tham chiếu.
 
     decltype(i)   b;  // b có kiểu int
     decltype((i)) c;  // lỗi, c có kiểu int& và phải được khởi tạo
+
+    struct S {
+        int x = 0;
+    };
+
+    S s;
+    const S* pcs = &s;
+    decltype(s.x) d;       // d có kiểu int
+    decltype(pcs->x) e;    // e có kiểu int
+    decltype((pcs->x)) f;  // f có kiểu const int&
 
 
 Chú ý rằng ``decltype((variable))`` luôn cho kiểu tham chiếu, còn
