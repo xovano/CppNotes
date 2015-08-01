@@ -497,23 +497,34 @@ khai báo (declarator).
 Chỉ định kiểu ``auto``
 ~~~~~~~~~~~~~~~~~~~~~~
 Kiểu mà trình dịch xác định cho ``auto`` không luôn luôn chính xác là kiểu của
-phần khởi tạo. ``auto`` bỏ qua ``const`` cấp cao nhất và tham chiếu.
+phần khởi tạo. ``auto`` bỏ qua tham chiếu, ``const`` cấp cao nhất (và cả
+``volatile``).
 
 .. sourcecode:: cpp
 
+    const int  ci  = 24;
+    auto a = ci;   // int, bỏ qua const cấp cao nhất
+
     int        i   = 42;
     int&       ri  = i;
-    const int  ci  = 24;
-    const int& rci = ci;
-
-    auto a = ci;   // int, bỏ qua const cấp cao nhất
     auto b = ri;   // int, bỏ qua tham chiếu
-    auto c = rci;  // int, bỏ qua cả tham chiếu và const cấp cao nhất
 
-    const auto  d = ci;  // const int
-    auto&       e = i;   // int&
-    auto&       f = ci;  // const int&, const cấp thấp không bị bỏ qua
-    const auto& g = i;   // const int&
+    const int& rci1 = ci;
+    auto c = rci1;  // int, bỏ qua cả tham chiếu và const cấp cao nhất
+
+    const int& rci2 = i;
+    auto d = rci2;  // int, bỏ qua tham chiếu và const cấp cao nhất
+
+
+Ta cần chỉ rõ nếu muốn có ``const`` cấp cao nhất hoặc tham chiếu trong kiểu
+thu được:
+
+.. sourcecode:: cpp
+
+    const auto  e = ci;  // const int
+    auto&       f = i;   // int&
+    auto&       g = ci;  // const int&, const cấp thấp không bị bỏ qua
+    const auto& h = i;   // const int&
 
 
 ``auto`` và ``auto*`` có thể thay thế cho nhau trong hầu hết các trường hợp
