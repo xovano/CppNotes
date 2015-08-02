@@ -63,6 +63,133 @@ Giá trị trả về được dùng để khởi tạo một đối tượng t�
 được gọi, và đó là kết quả của hàm.
 
 
+Tự động suy luận kiểu trả về (C++14)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Suy luận kiểu trả về với ``auto``
+---------------------------------
+Kể từ C++14, ta có thể dùng ``auto`` trong kiểu trả về của hàm mà không cần
+chỉ rõ kiểu trả về ở đuôi để trình dịch tự động suy luận kiểu trả về. Kiểu
+này được xác định từ biểu thức của lệnh ``return``, theo quy tắc suy luận
+kiểu của ``auto`` `như đối khai báo biến`__, ngoại trừ việc không
+thể trả về brace-init list:
+
+.. __: VarsAndBasicTypes.rst#chi-dinh-kieu-auto
+
+.. sourcecode:: cpp
+
+    int i = 293;
+    const auto& f() {
+        return i;  // kiểu trả về là const int&
+    }
+
+    auto g() {
+        return {1, 2, 3};  // LỖI, không thể trả về brace-init list
+    }
+
+
+Nếu thân hàm không có lệnh ``return`` nào, kiểu trả của hàm là ``void``.
+
+.. sourcecode:: cpp
+
+    auto  f() {}  // kiểu trả về là void
+    auto* f() {}  // LỖI, auto* không khớp với void
+
+
+Nếu thân hàm có nhiều lệnh ``return``, chúng phải cùng suy ra một kiểu. Kiểu
+suy luận được từ lệnh ``return`` đầu tiên có thể được sử dụng trong phần còn
+lại của hàm. Điều này cho phép gọi đệ quy nếu trước đó có ít nhất một lệnh
+``return`` cho phép xác định kiểu trả về:
+
+.. sourcecode:: cpp
+
+    auto sum(int i) {
+        if (i == 1)
+            return i;  // kiểu trả về là int
+        else
+            return sum(i - 1) + i; // OK, đã biết kiểu trả về của lời gọi sum(i - 1)
+    }
+
+
+Hàm sử dụng suy luận kiểu trả về có thể được forward declare nhưng chỉ có
+thể dùng được sau khi được định nghĩa và định nghĩa đó phải có mặt trong đơn
+vị dịch sử dụng hàm. Không thể khai báo lại hàm đó với cách suy luận kiểu
+khác (như ``decltype(auto)``, xem bên dưới), hoặc với kiểu trả về đã suy
+luận được (hiển nhiên khai báo lại hàm với kiểu trả về khác kiểu đã suy luận
+được là bất hợp lệ do không thể overload dựa trên kiểu trả về).
+
+.. sourcecode:: cpp
+
+    auto f();
+    auto f() { return 1; }  // định nghĩa, kiểu trả về là int
+    int f();                // LỖI, không thể khai báo lại với kiểu trả về đã suy luận được
+    decltype(auto) f();     // LỖI, dùng cách suy luận kiểu khác
+    auto f();               // OK, khai báo lại
+
+
+
+Suy luận kiểu trả về với ``decltype(auto)``
+-------------------------------------------
+Khai báo ``decltype(auto)`` cho kiểu trả về hoạt động giống như ``auto`` cho
+kiểu trả về nhưng sử dụng quy tắc suy luận kiểu của ``decltype`` (như `trong
+khai báo biến`__). Điều này cho phép bảo toàn tính chất tham chiếu của biểu
+thức trả về, và là hữu ích để viết các hàm chuyển tiếp, khi mà chúng ta muốn
+kiểu trả về *theo chính xác* kiểu của biểu thức trả về.
+
+.. __: VarsAndBasicTypes.rst#chi-dinh-kieu-decltype
+
+Chẳng hạn chúng ta có hai hàm:
+
+.. sourcecode:: cpp
+
+    std::string lookup1();
+    std::string& lookup2();
+
+
+và cần viết các hàm chuyển tiếp xác thực người dùng rồi gọi các hàm
+``lookup`` thích hợp:
+
+.. sourcecode:: cpp
+
+    std::string authAndLookup1();
+    std::string& authAndLookup2();
+
+
+Trong C++11 trở về trước, ta cần chỉ rõ kiểu trả về hoặc sử dụng
+``decltype`` trong phần kiểu ở đuôi. Với C++14, ta có thể viết ngắn gọn như
+sau:
+
+.. sourcecode:: cpp
+
+    decltype(auto) authAndLookup1() {
+        authenticateUser();
+        return lookup1();
+    }
+
+    decltype(auto) authAndLookup2() {
+        authenticateUser();
+        return lookup2();
+    }
+
+
+Chú ý rằng kiểu trả về ``decltype(auto)`` chỉ có thể đứng riêng mình nó chứ
+không thể sử dụng cùng các type modifier/qualifier, chẳng hạn ``const
+decltype(auto)&`` là bất hợp lệ.
+
+Vì ``decltype(auto)`` sử dụng quy tắc suy luận kiểu của ``decltype``, cách
+viết sau trả về tham chiếu và đó là lỗi lập trình (trả về tham chiếu tới
+biến cục bộ):
+
+.. sourcecode:: cpp
+
+    decltype(auto) authAndLookup1() {
+        authenticateUser();
+        auto str = lookup1();
+        return (str);
+    }
+
+
+
 Trả về con trỏ hoặc tham chiếu
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Đừng bao giờ trả về con trỏ hoặc tham chiếu tới biến cục bộ. Đôi khi điều này
