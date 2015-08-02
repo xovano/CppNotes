@@ -594,6 +594,26 @@ hàm.
 
 
 
+``decltype(auto)``
+~~~~~~~~~~~~~~~~~~
+Khi khai báo biến, ``decltype(auto)`` có thể được dùng thay cho vị trí của
+``auto`` (nhưng không kết hợp với các type modifier hay qualifer như ``*``,
+``&``, ``const``, ``volatile``) để yêu cầu trình dịch tự động suy luận kiểu
+cho biến theo quy tắc của ``decltype``.
+
+.. sourcecode:: cpp
+
+    const int ci  = 24;
+    decltype(auto) a = ci;    // a có kiểu const int
+    decltype(auto) b = (ci);  // b có kiểu const int&
+
+
+Mặc dù ``decltype(auto)`` có thể dùng để khai báo biến , *điều này không
+được khuyến khích* vì tính chất tham chiếu và ``const`` cấp cao nhất của
+biến không nên phụ thuộc vào biểu thức khởi tạo cho nó. ``decltype(auto)``
+`chủ yếu được dùng để viết các hàm chuyển tiếp`__.
+
+.. __: Functions.rst#suy-luan-kieu-tra-ve-voi-decltype-auto
 
 .. _rvalue: Expressions.rst#lvalue-va-rvalue
 .. _lvalue: Expressions.rst#lvalue-va-rvalue
