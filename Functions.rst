@@ -442,10 +442,16 @@ dâu hiệu gợi ý rằng chương trình được thiết kế không tốt.
 Con trỏ hàm
 ===========
 Hàm được chuyển đổi tự động sang con trỏ hàm khi *tên* hàm được sử dụng *như
-một giá trị*.
+một giá trị*. Và tương tự như mảng, khi ta khai báo tham số của hàm là một
+hàm, nó được hiểu là con trỏ tới hàm.
 
-Tương tự như mảng, khi ta khai báo tham số của hàm là một hàm, nó được hiểu
-là con trỏ tới hàm.
+.. sourcecode:: cpp
+
+    int f(char);
+    auto pf = f;  // pf có kiểu con trỏ hàm int (*)(char)
+
+    void g(int a, int b, int f(int a, int b));  // g có kiểu void(int, int, int (*)(int, int))
+
 
 Ngoài các trường hợp trên, hàm và con trỏ hàm là khác nhau.
 
