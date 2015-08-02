@@ -63,6 +63,37 @@ Giá trị trả về được dùng để khởi tạo một đối tượng t�
 được gọi, và đó là kết quả của hàm.
 
 
+Trả về con trỏ hoặc tham chiếu
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Đừng bao giờ trả về con trỏ hoặc tham chiếu tới biến cục bộ. Đôi khi điều này
+xảy ra nếu ta không chú ý, như trong tình huống sai thứ hai trong đoạn mã
+dưới đây:
+
+.. sourcecode:: cpp
+
+    const std::string& f() {
+        std::string ret;
+        // làm gì đó với ret
+
+        if (!ret.empty())
+            return ret;      // SAI, trả về tham chiếu tới biến cục bộ ret
+        else
+            return "Empty";  // SAI, trả về tham chiếu tới đối tượng string tạm thời cục bộ
+    }
+
+
+Tình huống sai thứ nhất khá rõ ràng.
+
+Trong tình huống sai thứ hai, mặc dù thời gian sống của literal xâu
+``"Empty"`` vẫn tiếp tục sau khi hàm kết thúc, nó bị chuyển đổi thành một đối
+tượng ``std::string`` tạm thời khi trả về. Đối tượng này là cục bộ đối với
+``f``.
+
+Một cách để đảm bảo rằng một lệnh trả về là an toàn là đặt câu hỏi: tham
+chiếu (con trỏ) được trả về tham chiếu (trỏ) tới *đối tượng đã tồn tại từ
+trước* nào?
+
+
 Tự động suy luận kiểu trả về (C++14)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -188,37 +219,6 @@ biến cục bộ):
         return (str);
     }
 
-
-
-Trả về con trỏ hoặc tham chiếu
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Đừng bao giờ trả về con trỏ hoặc tham chiếu tới biến cục bộ. Đôi khi điều này
-xảy ra nếu ta không chú ý, như trong tình huống sai thứ hai trong đoạn mã
-dưới đây:
-
-.. sourcecode:: cpp
-
-    const std::string& f() {
-        std::string ret;
-        // làm gì đó với ret
-
-        if (!ret.empty())
-            return ret;      // SAI, trả về tham chiếu tới biến cục bộ ret
-        else
-            return "Empty";  // SAI, trả về tham chiếu tới đối tượng string tạm thời cục bộ
-    }
-
-
-Tình huống sai thứ nhất khá rõ ràng.
-
-Trong tình huống sai thứ hai, mặc dù thời gian sống của literal xâu
-``"Empty"`` vẫn tiếp tục sau khi hàm kết thúc, nó bị chuyển đổi thành một đối
-tượng ``std::string`` tạm thời khi trả về. Đối tượng này là cục bộ đối với
-``f``.
-
-Một cách để đảm bảo rằng một lệnh trả về là an toàn là đặt câu hỏi: tham
-chiếu (con trỏ) được trả về tham chiếu (trỏ) tới *đối tượng đã tồn tại từ
-trước* nào?
 
 
 Overload hàm
