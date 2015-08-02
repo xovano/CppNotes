@@ -110,7 +110,7 @@ nhiên đây là hành vi không xác định nên mọi kết quả đều đư
 âm**. Cần nhớ rằng `số có dấu có thể được chuyển đổi tự động sang không dấu nếu
 cần`__ và có thể cho kết quả không như mong đợi.
 
-.. __: Expressions.rst#toan-hang-khong-dau
+.. __: Expressions.rst#toán-hạng-không-dấu
 
 
 Literal
@@ -595,7 +595,7 @@ Mặc dù ``decltype(auto)`` có thể dùng để khai báo biến , *điều n
 biến không nên phụ thuộc vào biểu thức khởi tạo cho nó. ``decltype(auto)``
 `chủ yếu được dùng để viết các hàm chuyển tiếp`__.
 
-.. __: Functions.rst#suy-luan-kieu-tra-ve-voi-decltype-auto
+.. __: Functions.rst#suy-luận-kiểu-trả-về-với-decltypeauto
 
-.. _rvalue: Expressions.rst#lvalue-va-rvalue
-.. _lvalue: Expressions.rst#lvalue-va-rvalue
+.. _rvalue: Expressions.rst#lvalue-và-rvalue
+.. _lvalue: Expressions.rst#lvalue-và-rvalue

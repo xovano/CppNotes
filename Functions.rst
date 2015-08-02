@@ -105,7 +105,7 @@ này được xác định từ biểu thức của lệnh ``return``, theo quy 
 kiểu của ``auto`` `như đối khai báo biến`__, ngoại trừ việc không
 thể trả về brace-init list:
 
-.. __: VarsAndBasicTypes.rst#chi-dinh-kieu-auto
+.. __: VarsAndBasicTypes.rst#chỉ-định-kiểu-auto
 
 .. sourcecode:: cpp
 
@@ -167,7 +167,7 @@ khai báo biến`__). Điều này cho phép bảo toàn tính chất tham chi�
 thức trả về, và là hữu ích để viết các hàm chuyển tiếp, khi mà chúng ta muốn
 kiểu trả về *theo chính xác* kiểu của biểu thức trả về.
 
-.. __: VarsAndBasicTypes.rst#chi-dinh-kieu-decltype
+.. __: VarsAndBasicTypes.rst#chỉ-định-kiểu-decltype
 
 Chẳng hạn chúng ta có hai hàm:
 
@@ -335,7 +335,7 @@ Hàm ``inline`` và ``constexpr``
 Kiểu trả về và kiểu của các tham số của hàm ``constexpr`` phải là `kiểu
 literal`_
 
-.. _kiểu literal: VarsAndBasicTypes.rst#kieu-literal
+.. _kiểu literal: VarsAndBasicTypes.rst#kiểu-literal
 
 Trong C++11, thân hàm ``constexpr`` phải chứa duy nhất một lệnh ``return`` và
 có thể chứa thêm các lệnh không yêu cầu hành động ở runtime bao gồm
@@ -413,8 +413,8 @@ Mức độ khớp của các đối số được xác định theo chiều gi�
    con trỏ (gồm cả chuyển đổi từ ``0`` hay ``nullptr``).
 #. Khớp qua chuyển đổi định nghĩa bởi class.
 
-.. _nâng kiểu: Expressions.rst#nang-kieu-nguyen
-.. __: VarsAndBasicTypes.rst#chuyen-doi-kieu
+.. _nâng kiểu: Expressions.rst#nâng-kiểu-nguyên
+.. __: VarsAndBasicTypes.rst#chuyển-đổi-kiểu
 
 Các quy tắc phức tạp trên cùng với nâng kiểu nguyên và chuyển đổi số học có
 thể gây ra những kết quả bất ngờ không mong đợi. Xét hai hàm ``f(int)`` và
@@ -479,4 +479,4 @@ Không có phép chuyển đổi nào giữa các kiểu con trỏ hàm khác nh
 thể gán ``nullptr`` hoặc một `biểu thức hằng`_ nguyên có giá trị 0 vào con trỏ
 hàm.
 
-.. _biểu thức hằng: VarsAndBasicTypes.rst#constexpr-va-bieu-thuc-hang
+.. _biểu thức hằng: VarsAndBasicTypes.rst#constexpr-và-biểu-thức-hằng
