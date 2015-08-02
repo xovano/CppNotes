@@ -173,7 +173,7 @@ sau:
 
 
 Chú ý rằng kiểu trả về ``decltype(auto)`` chỉ có thể đứng riêng mình nó chứ
-không thể sử dụng cùng các type modifier/qualifier, chẳng hạn ``const
+không thể sử dụng cùng các type modifier hay qualifier, chẳng hạn ``const
 decltype(auto)&`` là bất hợp lệ.
 
 Vì ``decltype(auto)`` sử dụng quy tắc suy luận kiểu của ``decltype``, cách
