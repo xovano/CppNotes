@@ -10,7 +10,7 @@ Mặc dù không cho phép định nghĩa hàm cục bộ (hàm bên trong hàm)
 khai báo hàm cục bộ (khai báo nguyên mẫu hàm bên trong một block). Nhưng đây
 thường là một ý tưởng tồi.
 
-Khai báo lại một hàm nhiều lần là thao tác hợp lệ, dù ít dùng.
+Khai báo lại một hàm nhiều lần là thao tác hợp lệ.
 
 
 Truyền đối số
