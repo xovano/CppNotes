@@ -22,6 +22,9 @@ kiểu của mảng, không phải con trỏ.
     auto p = a;                 // p có kiểu int*
 
 
+
+Đánh chỉ số với mảng
+====================
 Mặc dù chỉ số mảng nên được định nghĩa với kiểu không dấu ``size_t`` trong
 tiêu đề ``cstddef``, đánh chỉ số âm với con trỏ đang trỏ vào mảng (con trỏ
 này có thể chính là tên mảng) là hợp lệ nếu không có truy cập ngoài biên. Đó
