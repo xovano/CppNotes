@@ -6,13 +6,21 @@ Mảng
 
 Định nghĩa mảng
 ===============
-Xem chú ý về mảng ở phần chỉ định kiểu auto_ và decltype_.
+Khi định nghĩa mảng, ta cần chỉ định rõ kiểu phần tử, không thể dùng ``auto``.
 
-.. _auto: VarsAndBasicTypes.rst#chi-dinh-kieu-auto
-.. _decltype: VarsAndBasicTypes.rst#chi-dinh-kieu-decltype
 
 Con trỏ và mảng
 ===============
+Trong một lượng lớn các trường hợp, tên của mảng bị chuyển đổi sang con trỏ.
+Tuy nhiên chú ý rằng khi áp dụng decltype lên tên mảng, kiểu thu được là
+kiểu của mảng, không phải con trỏ.
+
+.. sourcecode:: cpp
+
+    int a[] = {1, 2, 3};        // a có kiểu int[3]
+    decltype(a) b = {3, 2, 1};  // b cũng có kiểu int[3]
+    auto p = a;                 // p có kiểu int*
+
 
 Mặc dù chỉ số mảng nên được định nghĩa với kiểu không dấu ``size_t`` trong
 tiêu đề ``cstddef``, đánh chỉ số âm với con trỏ đang trỏ vào mảng (con trỏ

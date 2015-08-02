@@ -459,10 +459,15 @@ Ngoài các trường hợp trên, hàm và con trỏ hàm là khác nhau.
     PF f3(int funcNumber);  // OK
 
 
-``decltype`` khi áp dụng lên hàm cũng `cho kiểu hàm chứ không phải là con trỏ
-hàm`__.
+``decltype`` khi áp dụng lên tên hàm cũng cho kiểu hàm chứ không phải là con
+trỏ hàm.
 
-.. __: VarsAndBasicTypes.rst#chi-dinh-kieu-decltype
+.. sourcecode:: cpp
+
+    int foo(int);
+    delctype(foo)  getFunc1(int funcNum);  // lỗi, decltype(foo) cho kiểu hàm int(int)
+    decltype(foo)* getFunc2(int funcNum);  // OK
+
 
 Không có phép chuyển đổi nào giữa các kiểu con trỏ hàm khác nhau, nhưng ta có
 thể gán ``nullptr`` hoặc một `biểu thức hằng`_ nguyên có giá trị 0 vào con trỏ
