@@ -502,12 +502,12 @@ phần khởi tạo. ``auto`` bỏ qua tham chiếu, ``const`` cấp cao nhất 
 
 .. sourcecode:: cpp
 
-    const int  ci  = 24;
-    auto a = ci;   // int, bỏ qua const cấp cao nhất
+    const int ci  = 24;
+    auto a = ci;  // int, bỏ qua const cấp cao nhất
 
-    int        i   = 42;
-    int&       ri  = i;
-    auto b = ri;   // int, bỏ qua tham chiếu
+    int  i   = 42;
+    int& ri  = i;
+    auto b = ri;  // int, bỏ qua tham chiếu
 
     const int& rci1 = ci;
     auto c = rci1;  // int, bỏ qua cả tham chiếu và const cấp cao nhất
