@@ -15,6 +15,10 @@ Hiểu một cách đơn giản, khi một đối tượng được dùng như r
 dụng giá trị (nội dung) của đối tượng đó, còn khi đối tượng được dùng như
 lvalue, chúng ta sử dụng vị trí của đối tượng đó trong bộ nhớ.
 
+Một phương pháp heuristic để xác xác định một biểu thức có phải là lvalue hay
+không là kiểm tra xem có thể lấy địa chỉ của biểu thức đó không. Nếu có thì
+nó thường là lvalue, còn nếu không thì biểu thức đó thường là rvalue.
+
 Rvalue không thể được sử dụng tại các vị trí yêu cầu lvalue. Trong hầu hết
 các trường hợp (không phải tất cả), chúng ta có thể sử dụng lvalue tại vị
 trí yêu cầu rvalue.
