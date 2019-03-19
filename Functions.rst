@@ -36,10 +36,10 @@ There are 3 choices to write variadic function:
 
 #. Use ``std::initializer_list`` parameter if all "arguments" have the
    same type. Note that all elements of ``initializer_list`` are
-   ``const``. And ``initializer_list`` copies elements to an underlying
-   array so it can be expensive and can't be used with move-only type.
+   ``const``. And `beware of copies with std::initializer_list
+   <https://tristanbrindle.com/posts/beware-copies-initializer-list>`_.
 #. Use variadic template.
-#. Use ellipsis paramerter. Almost all class objects won't be copied
+#. Use ellipsis paramerters. Almost all class objects won't be copied
    correctly. Therefore this should only be used when interfacing with
    C.
 
@@ -50,122 +50,103 @@ Function using ellipsis paramerter is declared like this:
 *param_list* can be empty and the comma after that is optional.
 
 
-Trả về từ hàm
-=============
+Returning from function
+=======================
 
-Cách giá trị được trả về
-~~~~~~~~~~~~~~~~~~~~~~~~
-Giá trị trả về được dùng để khởi tạo một đối tượng tạm thời tại vị trí hàm
-được gọi, và đó là kết quả của hàm.
-
-
-Trả về con trỏ hoặc tham chiếu
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Đừng bao giờ trả về con trỏ hoặc tham chiếu tới biến cục bộ. Đôi khi điều này
-xảy ra nếu ta không chú ý, như trong tình huống sai thứ hai trong đoạn mã
-dưới đây:
+Returning a reference or pointer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Never return a reference or pointer to a local object. This rule seems
+easy to follow but you can make mistake due to implicit conversion
+creating an local temporary, like this:
 
 .. sourcecode:: cpp
 
     const std::string& f() {
         std::string ret;
-        // làm gì đó với ret
+        // do something with ret
 
         if (!ret.empty())
-            return ret;      // SAI, trả về tham chiếu tới biến cục bộ ret
+            return ret;        // Wrong, pretty obvious
         else
-            return "Empty";  // SAI, trả về tham chiếu tới đối tượng string tạm thời cục bộ
+            return "Default";  // Wrong, return a reference to local temporary
     }
 
 
-Tình huống sai thứ nhất khá rõ ràng.
+Automatic return type deduction (C++14)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Trong tình huống sai thứ hai, mặc dù thời gian sống của literal xâu
-``"Empty"`` vẫn tiếp tục sau khi hàm kết thúc, nó bị chuyển đổi thành một đối
-tượng ``std::string`` tạm thời khi trả về. Đối tượng này là cục bộ đối với
-``f``.
+Return type deduction with ``auto``
+-----------------------------------
+From C++14, ``auto`` can be used as return type. Compiler determines
+actual return type from the expresion used in ``return`` statement, the
+same way as when ``auto`` is `used to declare variables`__, except that
+you can't return a brace-init list:
 
-Một cách để đảm bảo rằng một lệnh trả về là an toàn là đặt câu hỏi: tham
-chiếu (con trỏ) được trả về tham chiếu (trỏ) tới *đối tượng đã tồn tại từ
-trước* nào?
-
-
-Tự động suy luận kiểu trả về (C++14)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Suy luận kiểu trả về với ``auto``
----------------------------------
-Kể từ C++14, ta có thể dùng ``auto`` trong kiểu trả về của hàm mà không cần
-chỉ rõ kiểu trả về ở đuôi để trình dịch tự động suy luận kiểu trả về. Kiểu
-này được xác định từ biểu thức của lệnh ``return``, theo quy tắc suy luận
-kiểu của ``auto`` `như đối khai báo biến`__, ngoại trừ việc không
-thể trả về brace-init list:
-
-.. __: VarsAndBasicTypes.rst#chi-dinh-kieu-auto
+.. __: VarsAndBasicTypes.rst#auto-type-specifier
 
 .. sourcecode:: cpp
 
-    int i = 293;
+    int i = 42;
     const auto& f() {
-        return i;  // kiểu trả về là const int&
+        return i;  // return type is const int&
     }
 
     auto g() {
-        return {1, 2, 3};  // LỖI, không thể trả về brace-init list
+        return {1, 2, 3};  // error, can't return brace-init list
     }
 
 
-Nếu thân hàm không có lệnh ``return`` nào, kiểu trả của hàm là ``void``.
+If the function's body has no ``return`` statement, return type is
+deduced to ``void``:
 
 .. sourcecode:: cpp
 
-    auto  f() {}  // kiểu trả về là void
-    auto* f() {}  // LỖI, auto* không khớp với void
+    auto  f() {}  // return type is void
+    auto* f() {}  // error, auto* can't be deduced to void
 
 
-Nếu thân hàm có nhiều lệnh ``return``, chúng phải cùng suy ra một kiểu. Kiểu
-suy luận được từ lệnh ``return`` đầu tiên có thể được sử dụng trong phần còn
-lại của hàm. Điều này cho phép gọi đệ quy nếu trước đó có ít nhất một lệnh
-``return`` cho phép xác định kiểu trả về:
+If the function's body has multiple ``return`` statements, the
+expressions have to have the same type. The type deduced from the first
+``return`` can be used to deduce type in the rest of the function. This
+allow recursion if the base cases are written first:
 
 .. sourcecode:: cpp
 
     auto sum(int i) {
         if (i == 1)
-            return i;  // kiểu trả về là int
-        else
-            return sum(i - 1) + i; // OK, đã biết kiểu trả về của lời gọi sum(i - 1)
+            return i;  // return type is int
+
+        return sum(i - 1) + i; // OK, type of sum(i - 1) is already known
     }
 
 
-Hàm sử dụng suy luận kiểu trả về có thể được forward declare nhưng chỉ có
-thể dùng được sau khi được định nghĩa và định nghĩa đó phải có mặt trong đơn
-vị dịch sử dụng hàm. Không thể khai báo lại hàm đó với cách suy luận kiểu
-khác (như ``decltype(auto)``, xem bên dưới), hoặc với kiểu trả về đã suy
-luận được (hiển nhiên khai báo lại hàm với kiểu trả về khác kiểu đã suy luận
-được là bất hợp lệ do không thể overload dựa trên kiểu trả về).
+Function with return type deduction can be forward declared but can
+only be used after it is defined with the definition available in
+translation unit. The function can't be re-declared with other return
+type deduction methods (e.g. ``decltype(auto)``), or with a return type
+which is the same as the deduced one (since we can't overload function
+by using different return types).
 
 .. sourcecode:: cpp
 
-    auto f();
-    auto f() { return 1; }  // định nghĩa, kiểu trả về là int
-    int f();                // LỖI, không thể khai báo lại với kiểu trả về đã suy luận được
-    decltype(auto) f();     // LỖI, dùng cách suy luận kiểu khác
-    auto f();               // OK, khai báo lại
+    auto f();               // forward declaration
+    auto f() { return 1; }  // definition, return an int
+    int f();                // error, re-declare using the deduced type
+    decltype(auto) f();     // error, re-declare with other return type deduction method
+    auto f();               // OK
 
 
 
 Automatic return type deduction with ``decltype(auto)``
 -------------------------------------------------------
-Khai báo ``decltype(auto)`` cho kiểu trả về hoạt động giống như ``auto`` cho
-kiểu trả về nhưng sử dụng quy tắc suy luận kiểu của ``decltype`` (như `trong
-khai báo biến`__). Điều này cho phép bảo toàn tính chất tham chiếu của biểu
-thức trả về, và là hữu ích để viết các hàm chuyển tiếp, khi mà chúng ta muốn
-kiểu trả về *theo chính xác* kiểu của biểu thức trả về.
+``decltype(auto)`` return type acts like ``auto`` return type but uses
+deduction rule of ``decltype`` (same as in `variable declaration`__).
+This allow preserving reference-ness of returned expression, which is
+useful while writing forwarding functions.
 
-.. __: VarsAndBasicTypes.rst#chi-dinh-kieu-decltype
+.. __: VarsAndBasicTypes.rst#decltype-type-specifier
 
-Chẳng hạn chúng ta có hai hàm:
+For example, let say we have 2 functions:
 
 .. sourcecode:: cpp
 
@@ -173,8 +154,8 @@ Chẳng hạn chúng ta có hai hàm:
     std::string& lookup2();
 
 
-và cần viết các hàm chuyển tiếp xác thực người dùng rồi gọi các hàm
-``lookup`` thích hợp:
+and we want 2 functions that authenticate user before calling the above
+functions:
 
 .. sourcecode:: cpp
 
@@ -182,9 +163,8 @@ và cần viết các hàm chuyển tiếp xác thực người dùng rồi gọ
     std::string& authAndLookup2();
 
 
-Trong C++11 trở về trước, ta cần chỉ rõ kiểu trả về hoặc sử dụng
-``decltype`` trong phần kiểu ở đuôi. Với C++14, ta có thể viết ngắn gọn như
-sau:
+Before C++14 we have to use explicit return type or use ``decltype``
+in trailing return type. In C++14, we can just write:
 
 .. sourcecode:: cpp
 
@@ -198,32 +178,26 @@ sau:
         return lookup2();
     }
 
-
-Chú ý rằng kiểu trả về ``decltype(auto)`` chỉ có thể đứng riêng mình nó chứ
-không thể sử dụng cùng các type modifier hay qualifier, chẳng hạn ``const
-decltype(auto)&`` là bất hợp lệ.
-
-Vì ``decltype(auto)`` sử dụng quy tắc suy luận kiểu của ``decltype``, cách
-viết sau trả về tham chiếu và đó là lỗi lập trình (trả về tham chiếu tới
-biến cục bộ):
+The same usefulness (ability to deduced to reference type) can turn
+into badness if we end up returning a reference to local object:
 
 .. sourcecode:: cpp
 
     decltype(auto) authAndLookup1() {
         authenticateUser();
         auto str = lookup1();
-        return (str);  // LỖI, trả về tham chiếu tới biến cục bộ
+        return (str);  // error, return a reference to local variable
     }
 
 
+Note that ``decltype(auto)`` can't be combined with other type modifier
+or qualifier. For example ``const decltype(auto)&`` is illegal.
 
-Overload hàm
-============
-Mặc dù overload giúp tránh việc phải nghĩ ra (và nhớ) tên mới cho một thao
-tác chung, chúng ta chỉ nên overload các thao tác thực sự thực hiện các công
-việc có tính tương đồng cao. Có những tình huống mà các tên khác nhau giúp
-chương trình dễ hiểu hơn. Xét một ví dụ về các hàm thành viên di chuyển con
-trỏ trên màn hình soạn thảo. Cách đặt tên
+
+Function overloading
+====================
+There are scenarios in which a set of different function names is better
+than overloading. For example:
 
 .. sourcecode:: cpp
 
@@ -232,7 +206,7 @@ trỏ trên màn hình soạn thảo. Cách đặt tên
     Screen& moveCursorRelative(int rowOffset, int colOffset, Direction);
 
 
-là tốt hơn so với cách overload
+is better than
 
 .. sourcecode:: cpp
 
@@ -241,24 +215,23 @@ là tốt hơn so với cách overload
     Screen& moveCursor(int rowOffset, int colOffset, Direction);
 
 
-do các di chuyển này dù tương tự nhưng có những đặc tính riêng. Khi gọi hàm,
-đặt tên theo cách thứ nhất cho mã dễ hiểu hơn.
+because the calling code is clearer:
 
 .. sourcecode:: cpp
 
-    textScreen.moveCursorHome();  // chúng ta nghĩ: "di chuyển con trỏ về đầu dòng"
-    textScreen.moveCursor();      // huh? di chuyển con trỏ đi đâu?
+    textScreen.moveCursorHome();  // unambigious
+    textScreen.moveCursor();      // huh? move cursor to where?
 
 
-``const_cast`` và overload
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-``const_cast`` hay dùng nhất trong các tình huống overload dựa trên ``const``:
+``const_cast`` and overloading
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``const_cast`` is usually used when creating different overloads base
+on ``const``-ness of arguments:
 
 .. sourcecode:: cpp
 
     const std::string& betterString(const std::string& s1, const std::string& s2) {
-        // thực hiện tính toán để xác định xâu nào "tốt" hơn theo một tiêu chí nào đó
-        // trả về xâu "tốt" hơn (s1 hoặc s2)
+        // determine the "better" string base on some criteria and return it
     }
 
     std::string& betterString(std::string& s1, std::string& s2) {
@@ -266,12 +239,6 @@ do các di chuyển này dù tương tự nhưng có những đặc tính riêng
                                  const_cast<const std::string&>(s2));
         return const_cast<std::string&>(ret);
     }
-
-
-Hai bản overload trên cho phép gọi trả về tham chiếu tới xâu ``const`` hoặc
-không ``const`` phù hợp với tham số truyền vào. Nếu chỉ có bản thứ nhất, kể
-cả khi đối số ban đầu là không ``const``, kết quả trả về vẫn là ``const`` và
-do đó có thể gây hạn chế số lượng thao tác có thể thực hiện trên kết quả.
 
 
 Overload và phạm vi
