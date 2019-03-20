@@ -7,7 +7,9 @@ Functions
 Function declarations and defintions
 ====================================
 C++ doesn't allow nested function defintions but allows nested function
-declarations. It's usually a bad idea though.
+declarations. Declaring a function locally is unusual, but sometimes
+it's useful. For example it allow you to call a function without
+including a big header file and polluting global namespace.
 
 
 Argument passing
@@ -215,7 +217,7 @@ is better than
     Screen& moveCursor(int rowOffset, int colOffset, Direction);
 
 
-because the calling code is clearer:
+because the calling code is easier to understand:
 
 .. sourcecode:: cpp
 
@@ -230,67 +232,71 @@ on ``const``-ness of arguments:
 
 .. sourcecode:: cpp
 
-    const std::string& betterString(const std::string& s1, const std::string& s2) {
-        // determine the "better" string base on some criteria and return it
+    const Date& earlierDate(const Date& d1, const Date& d2) {
+        // determine earlier date and return it
     }
 
-    std::string& betterString(std::string& s1, std::string& s2) {
-        auto& ret = betterString(const_cast<const std::string&>(s1),
-                                 const_cast<const std::string&>(s2));
-        return const_cast<std::string&>(ret);
+    Date& earlierDate(Date& d1, Date& d2) {
+        auto& ret = earlierDate(const_cast<const Date&>(d1),
+                                const_cast<const Date&>(d2));
+        return const_cast<Date&>(ret);
     }
 
 
-Overload và phạm vi
-~~~~~~~~~~~~~~~~~~~
-Giống như mọi tên khác, hàm được khai báo ở phạm vi trong sẽ che hàm được
-khai báo ở phạm vi ngoài. **Phân giải tên xảy ra trước kiểm tra kiểu**. Do đó
-không thể overload giữa các phạm vi.
+Overloading and scope
+~~~~~~~~~~~~~~~~~~~~~
+As other name declaration, function declared in inner scope hides
+function declared in outer scope. Furthermore, name lookup happens
+before type checking. Functions do not overloads across scopes.
 
 .. sourcecode:: cpp
 
-    void print(const std::string&);
-    void print(double);
+    void f(const std::string&);
+    void f(double);
 
     int main() {
-        void print(int);  // Bad practice!
+        void f(int);  // this is hiding, not overloading
 
-        print("Hello");   // LỖI vì gọi print(int) và không chuyển đổi được từ literal xâu sang int
-        print(42);        // OK, gọi print(int)
-        print(3.14);      // OK, nhưng gọi print(int) thay vì print(double)
+        f("42");  // error, no implicit conversion from string literal to int
+        f(3.14);  // no error, BUT still calls f(int), not f(double)
     }
 
 
-Đối số mặc định
-===============
-Vẫn có thể bỏ qua tên tham số được chỉ định giá trị mặc định, chẳng hạn khai
-báo
+Default arguments
+=================
+As usual, name of parameters with default arguments can be ommited in
+function declaration
 
 .. sourcecode:: cpp
 
-    double f(double, double = 3.14);
+    double f(int, double = 3.14);  // OK
 
 
-là hợp lệ.
-
-Các lần khai báo sau của hàm có thể chỉ định thêm giá trị mặc định cho tham
-số chưa có giá trị mặc định.
-
-Tên dùng trong biểu thức dùng làm đối số mặc định được phân giải trong phạm
-vi của khai báo hàm. Giá trị của chúng được tính tại thời điểm gọi hàm.
+Subsequent declaration (in the same scope) can add a default only for a
+parameter that has not previously had a default. The previous default
+arguments don't have to be repeated. For example, we can add a default
+for the first parameter of the above function like this:
 
 .. sourcecode:: cpp
 
-    int globalX = 0;
-    int globalY = 0;
+    double f(int = 42, double);
+
+Names used in default argument expression are resolved in the scope of
+the function declaration, and their value are evaluated at the time of
+the call:
+
+.. sourcecode:: cpp
+
+    int X = 0;
+    int Y = 0;
 
     int getCurrentZ();
-    double distance(int x = globalX, int y = globalY, int z = getCurrentZ());
+    double distance(int x = X, int y = Y, int z = getCurrentZ());
 
     double g() {
-        globalX = 42;
-        int globalY = 1482;
-        return distance();  // gọi distance(42, 0, getCurrentZ())
+        X = 42;
+        int Y = 24;
+        return distance();  // call distance(42, 0, getCurrentZ())
     }
 
 
